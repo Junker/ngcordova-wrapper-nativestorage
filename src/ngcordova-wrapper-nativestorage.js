@@ -51,6 +51,17 @@ angular.module("ngCordova.plugins.nativeStorage", [])
       }
     };
 
+    function getKeysFromLocalStorage(success, error) {
+      try {
+        var obj;
+        var keys = Object.keys($window.localStorage) || [];
+        success(keys);
+      }
+      catch (err) {
+        error(err);
+      }
+    };
+
     return {
       remove: function (reference) {
         var q = $q.defer();
