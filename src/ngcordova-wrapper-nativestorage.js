@@ -15,7 +15,7 @@ angular.module("ngCordova.plugins.nativeStorage", [])
         initialised = true;
       }
       return inBrowser;
-    };
+    }
 
     function setInLocalStorage(reference, variable, success, error) {
       try {
@@ -25,7 +25,7 @@ angular.module("ngCordova.plugins.nativeStorage", [])
       } catch (err) {
         error(err);
       }
-    };
+    }
 
     function getFromLocalStorage(reference, success, error) {
       try {
@@ -40,7 +40,7 @@ angular.module("ngCordova.plugins.nativeStorage", [])
       } catch (err) {
         error(err);
       }
-    };
+    }
 
     function removeFromLocalStorage(reference, success, error) {
       try {
@@ -69,7 +69,7 @@ angular.module("ngCordova.plugins.nativeStorage", [])
       catch (err) {
         error(err);
       }
-    };
+    }
 
     return {
       remove: function (reference) {
@@ -77,7 +77,9 @@ angular.module("ngCordova.plugins.nativeStorage", [])
         if (isInBrowser()) {
           removeFromLocalStorage(reference, function (result) { q.resolve(result); }, function (error) { q.reject(error); });
         } else {
-          NativeStorage.remove(reference, function (result) { q.resolve(result); }, function (error) { q.reject(error); });
+          document.addEventListener("deviceready", function() {
+            NativeStorage.remove(reference, function (result) { q.resolve(result); }, function (error) { q.reject(error); });
+          });
         }
         return q.promise;
       },
@@ -86,7 +88,9 @@ angular.module("ngCordova.plugins.nativeStorage", [])
         if (isInBrowser()) {
           setInLocalStorage(reference, s, function (result) { q.resolve(result); }, function (error) { q.reject(error); });
         } else {
-          NativeStorage.setItem(reference, s, function (result) { q.resolve(result); }, function (error) { q.reject(error); });
+          document.addEventListener("deviceready", function() {
+            NativeStorage.setItem(reference, s, function (result) { q.resolve(result); }, function (error) { q.reject(error); });
+          });
         }
         return q.promise;
       },
@@ -95,7 +99,9 @@ angular.module("ngCordova.plugins.nativeStorage", [])
         if (isInBrowser()) {
           getFromLocalStorage(reference, function (result) { q.resolve(result); }, function (error) { q.reject(error); });
         } else {
-          NativeStorage.getItem(reference, function (result) { q.resolve(result); }, function (error) { q.reject(error); });
+          document.addEventListener("deviceready", function() {
+            NativeStorage.getItem(reference, function (result) { q.resolve(result); }, function (error) { q.reject(error); });
+          });
         }
         return q.promise;
       },
@@ -108,10 +114,12 @@ angular.module("ngCordova.plugins.nativeStorage", [])
             q.reject(error);
           });
         } else {
-          NativeStorage.clear(function (result) {
-            q.resolve(result);
-          }, function (error) {
-            q.reject(error);
+          document.addEventListener("deviceready", function() {
+            NativeStorage.clear(function (result) {
+              q.resolve(result);
+            }, function (error) {
+              q.reject(error);
+            });
           });
         }
         return q.promise;
@@ -125,13 +133,15 @@ angular.module("ngCordova.plugins.nativeStorage", [])
             q.reject(error);
           });
         } else {
-          NativeStorage.keys(function (result) {
-            q.resolve(result);
-          }, function (error) {
-            q.reject(error);
+          document.addEventListener("deviceready", function() {
+            NativeStorage.keys(function (result) {
+              q.resolve(result);
+            }, function (error) {
+              q.reject(error);
+            });
           });
         }
         return q.promise;
       }
     };
-  }])
+  }]);
