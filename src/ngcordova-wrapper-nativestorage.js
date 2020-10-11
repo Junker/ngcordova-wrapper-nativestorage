@@ -49,7 +49,16 @@ angular.module("ngCordova.plugins.nativeStorage", [])
       } catch (err) {
         error(err);
       }
-    };
+    }
+
+    function clearFromLocalStorage(reference, success, error) {
+      try {
+        $window.localStorage.clear();
+        success(null);
+      } catch (err) {
+        error(err);
+      }
+    }
 
     function getKeysFromLocalStorage(success, error) {
       try {
