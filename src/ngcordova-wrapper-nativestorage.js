@@ -53,7 +53,7 @@ angular.module("ngCordova.plugins.nativeStorage", [])
       }
     }
 
-    function clearFromLocalStorage(reference, success, error) {
+    function clearFromLocalStorage(success, error) {
       try {
         $window.localStorage.clear();
         success(null);
