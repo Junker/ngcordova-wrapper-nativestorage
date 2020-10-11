@@ -35,7 +35,9 @@ angular.module("ngCordova.plugins.nativeStorage", [])
           obj = JSON.parse(value);
           success(obj);
         } else {
-          throw new Error(reference + ': undefined');
+          var err = new Error(reference + ': undefined');
+          err.code = 2;
+          throw err;
         }
       } catch (err) {
         error(err);
